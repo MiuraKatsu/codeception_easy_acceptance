@@ -1,0 +1,58 @@
+# PHP CircleCI 2.0 configuration file
+#
+# Check https://circleci.com/docs/2.0/language-php/ for more details
+#
+version: 2
+pre:
+jobs:
+  generate_cache:
+    machine: true
+    steps:
+      - checkout
+      - restore_cache:
+          key: docker-{{ .Branch }}--{{ checksum ".circleci/config.yml" }}--{{ checksum "docker-compose.yml" }}
+          paths:
+            - ~/caches/images.tar
+      - run:
+          name: Setup docker
+          command: |
+            if [ ! -f ~/caches/images.tar ]; then
+              docker-compose pull codecept chrome firefox
+              mkdir -p ~/caches
+              docker save $(docker images | awk 'NR>=2 && ! /^<none>/{print $1}') -o ~/caches/images.tar
+            fi
+      - save_cache:
+          key: docker-{{ .Branch }}--{{ checksum ".circleci/config.yml" }}--{{ checksum "docker-compose.yml" }}
+          paths:
+            - ~/caches/images.tar
+
+  test:
+    machine: true
+    steps:
+      - checkout
+      - restore_cache:
+          key: docker-{{ .Branch }}--{{ checksum ".circleci/config.yml" }}--{{ checksum "docker-compose.yml" }}
+          paths:
+            - ~/caches/images.tar
+      - run:
+          name: docker load
+          command: |
+            if [[ -e ~/caches/images.tar ]]; then
+              docker load -i ~/caches/images.tar
+            fi
+      - run:
+          name: Setup 
+          command: |
+            docker-compose up -d chrome firefox
+      - run:
+          name: Run Test
+          command: |
+            docker-compose run codecept run -x optional -vv --html=_report.html --env firefox --env chrome --env phpbrowser -g all
+workflows:
+  version: 2
+  push_build:
+    jobs:
+      - generate_cache
+      - test:
+          requires:
+            - generate_cache
