@@ -2,7 +2,7 @@
 
 [![CircleCI](https://circleci.com/gh/MiuraKatsu/codeception_easy_acceptance.svg?style=svg)](https://circleci.com/gh/MiuraKatsu/codeception_easy_acceptance)
 
-[日本語](README.js.md)
+[日本語](README.ja.md)
 
 ### simple end-to-end acceptance tests using codeception
 
