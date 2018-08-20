@@ -2,13 +2,10 @@
 
 [![CircleCI](https://circleci.com/gh/MiuraKatsu/codeception_easy_acceptance.svg?style=svg)](https://circleci.com/gh/MiuraKatsu/codeception_easy_acceptance)
 
-[日本語](README.ja.md)
+### codeceptionを使った簡単なE2Eの受け入れテスト
 
-### simple end-to-end acceptance tests using codeception
-
-* I am building all execution environment of codeception and selenium sever with docker-compose.
-* Acceptance test using three kinds of browsers, PHP Browser, chrome, firefox can be executed at the same time.
-    
+* codeceptionの実行環境とselenium severを全部Dockerで構築しています。
+* PHP Browser,chrome,firefoxの３種類のブラウザを使ったAcceptanceテストが同時に実行できます。
 
 ## Installation
 
@@ -19,7 +16,7 @@
 
 ### Url
 
-Url is set in param.php
+Urlはparam.phpで設定しています。
 
 ```php:tests/param.php
 <?php
@@ -33,7 +30,7 @@ Url is set in param.php
 
 ### Environments
 
-We set three kinds of browser environments with acceptance.suite.yml.
+acceptance.suite.ymlでブラウザ環境を３種類設定しています。
 
 ```yaml:tests/acceptance.suite.yml
 actor: AcceptanceTester
@@ -87,7 +84,7 @@ env:
 
 ## Write Acceptance Test
 
-You can specify each environment with ```@env``` annotation.
+```@env```アノテーションでそれぞれの環境を指定できます。
 
 ```
 <?php
@@ -126,7 +123,7 @@ class FirstCest
 
 ## Run
 
-Now that we have a Makefile, the test will only be executed with the ```make``` command.
+Makefileを用意したので、```make```コマンドだけでテストは実行されます。
 
 ```
 make
@@ -134,14 +131,12 @@ make
 
 ## Debug
 
-If you run the ```docker-compose run``` command individually, you can also narrow it down with the ```@env```, ```@group``` annotation.
-
+```docker-compose run```コマンドを個別に実行すれば、```@env```,```@group```アノテーションで絞り込んだ実行もできます。
 ```
 docker-compose run codecept run --env firefox -g onlythisone
 ```
 
-You can check with vnc whether it is actually connected.
-
+実際に接続できているかはvncで確認できます。
 
 ```
 make open-vnc
@@ -149,4 +144,4 @@ make open-vnc
 
 ## Continuous integration
 
-We have prepared .circleci/config.yml. Since CirlceCI also refers to the same docker-compose.yml, it basically runs in the same environment.
+.circleci/config.ymlを用意しました。CirlceCIでも同じdocker-compose.ymlが参照されるので基本的には同じ環境で実行されます。
