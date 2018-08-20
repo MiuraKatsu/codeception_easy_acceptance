@@ -1,4 +1,4 @@
-.PHONY: build test
+.PHONY: all
 
 DOCKER_COMPOSE  ?= docker-compose
 DOCKER_HOST_IP ?= 127.0.0.1
@@ -8,10 +8,10 @@ GROUP ?= all
 all:	 ##@test [TEST] shorthand for
 	$(MAKE) up run-tests
 
-up:      ##@development start stack
+up:	 ##@development start stack
 	$(DOCKER_COMPOSE) up -d chrome firefox
 
-clean:   ##@development remove all containers in stack
+clean:	 ##@development remove all containers in stack
 	$(DOCKER_COMPOSE) kill
 	$(DOCKER_COMPOSE) rm -fv --all
 	$(DOCKER_COMPOSE) down --rmi local --remove-orphans
