@@ -146,3 +146,7 @@ You can check with vnc whether it is actually connected.
 ```
 make open-vnc
 ```
+
+## Continuous integration
+
+We have prepared .circleci/config.yml. Since CirlceCI also refers to the same docker-compose.yml, it basically runs in the same environment.

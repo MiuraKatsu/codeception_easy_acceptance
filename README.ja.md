@@ -141,3 +141,7 @@ docker-compose run codecept run --env firefox -g onlythisone
 ```
 make open-vnc
 ```
+
+## Continuous integration
+
+.circleci/config.ymlを用意しました。CirlceCIでも同じdocker-compose.ymlが参照されるので基本的には同じ環境で実行されます。
